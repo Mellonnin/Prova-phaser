@@ -2,7 +2,7 @@
   "name": "phaser-template",
   "version": "1.0.0",
   "description": "Phaser 3.7.0 template",
-  "homepage": "https://github.com/darkxde/phaser-template",
+  "homepage": "https://github.com/darkxde/PhaserTemplate",
   "main": "index.js",
   "scripts": {
     "start": "webpack serve --open --config webpack/webpack.dev.js",
@@ -27,11 +27,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/darkxde/phaser-template.git"
+    "url": "https://github.com/darkxde/PhaserTemplate.git"
   },
   "template": {
     "name": "phaser-template",
-    "url": "https://github.com/darkxde/phaser-template",
+    "url": "https://github.com/darkxde/PhaserTemplate",
     "author": "Mariano Avagliano (https://github.com/darkxde)"
   },
   "engines": {

@@ -41,7 +41,11 @@ export default class Gioco_prova extends Phaser.Scene {
   }
   create() {
     this.platforms = this.physics.add.staticGroup()
-    const firstPlatform = this.platforms.create(gameSettings.gameWidth/2, gameSettings.gameHeight , TextureKeys.Piattaforma).setScale(0.1);
+    const firstPlatform = this.platforms.create(
+      gameSettings.gameWidth/2,
+      gameSettings.gameHeight ,
+      TextureKeys.Piattaforma
+    ).setScale(0.1);
     const firstPlatformBody = firstPlatform.body;
     firstPlatformBody.updateFromGameObject();
 
@@ -53,19 +57,16 @@ export default class Gioco_prova extends Phaser.Scene {
       else this.x /= 2;
       
       
-      /** @type {Phaser.Physics.Arcade.Sprite} */
       const platform = this.platforms.create(this.x, this.y, TextureKeys.Piattaforma);
       
       platform.setScale(0.1)
 
       this.platforms.add(platform)
       this.y += 200;
-      //this.physics.add.collider(this._pou, this.platforms);
 
       const body = platform.body as Physics.Arcade.StaticBody
       body.updateFromGameObject()
     }
-    // da capire come prendere la posizione
     
       this.Giocatore = this.physics.add
       .sprite(
@@ -86,12 +87,7 @@ export default class Gioco_prova extends Phaser.Scene {
       this.platforms
     );
 
-    this.Camera.startFollow(
-      this.Giocatore,
-      true,
-      0.05,
-      0.05
-    );
+    //this.Camera.startFollow(this.Giocatore, true, 0.05, 0.05);
     this.physics.add.collider(this.platforms, this.Giocatore);
     this.physics.add.overlap(this.Giocatore, this.platforms);
   }
@@ -116,15 +112,15 @@ export default class Gioco_prova extends Phaser.Scene {
     this.Giocatore.setVelocity(0);
 
     if (this.A.isDown) {
-      this.Giocatore.setVelocityX(-10);
+      this.Giocatore.setVelocityX(-speed);
     } else if (this.D.isDown) {
-      this.Giocatore.setVelocityX(+10);
+      this.Giocatore.setVelocityX(speed);
     }
     if (this.S.isDown) {
-      this.Giocatore.setAccelerationY(-10);
+      this.Giocatore.setAccelerationY(speed);
       //this.cameras.main.pan(0, 5, 1000, "Sine.easeInOut", true);
     } else if (this.SPACE.isDown) {
-      this.Giocatore.setAccelerationY(10);
+      this.Giocatore.setAccelerationY(-speed);
       //this.cameras.main.pan(0, 10, 1000, "Sine.easeInOut", true);
     }
     

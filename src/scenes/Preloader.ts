@@ -10,7 +10,6 @@ export default class Preloader extends Phaser.Scene {
 
   preload() {
     this.cameras.main.setBackgroundColor("#05d3f2");
-    // preload di tutti gli asset
 
     this.load.image(TextureKeys.Giocatore, "assets/images/logo.jpg");
     this.load.image(TextureKeys.Punti, "assets/images/logo.jpg");

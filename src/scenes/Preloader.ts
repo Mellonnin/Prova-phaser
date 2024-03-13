@@ -9,6 +9,7 @@ export default class Preloader extends Phaser.Scene {
   }
 
   preload() {
+<<<<<<< HEAD
     this.cameras.main.setBackgroundColor("#05d3f2");
     // preload di tutti gli asset
 
@@ -20,6 +21,15 @@ export default class Preloader extends Phaser.Scene {
   create() {
     // creazione di tutte le animazioni
 
+=======
+    // preload di tutti gli asset
+    this.load.image(TextureKeys.Logo, "assets/images/logo.jpg");
+  }
+
+  create() {
+    // creazione di tutte le animazioni
+
+>>>>>>> refs/remotes/origin/main
     this.scene.stop(SceneKeys.Preloader);
     this.scene.start(SceneKeys.Game);
   }

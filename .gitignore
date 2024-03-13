@@ -3,7 +3,11 @@ node_modules
 *.js
 *.js.map
 
+<<<<<<< HEAD
 package-lock.json 
 package.json
 tsconfig.json
 webpack
+=======
+package-lock.json
+>>>>>>> refs/remotes/origin/main

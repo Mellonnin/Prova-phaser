@@ -19,7 +19,7 @@ const dev = {
   
   devServer: {
     open: true,
-    port: 9000, hot: true,
+    port: 5500, hot: true,
   },
 
   plugins: [ 

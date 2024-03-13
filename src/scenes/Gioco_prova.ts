@@ -7,7 +7,7 @@ import TextureKeys from "../consts/TextureKeys";
 
 export default class Gioco_prova extends Phaser.Scene {
   Giocatore: Phaser.Physics.Arcade.Sprite;
-  Piattaforma: Phaser.Physics.Arcade.Sprite;
+  //Piattaforma: Phaser.Physics.Arcade.Sprite;
   Punti: Phaser.Physics.Arcade.StaticGroup;
   Camera: Phaser.Cameras.Scene2D.Camera;
   //Cursore: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -31,75 +31,64 @@ export default class Gioco_prova extends Phaser.Scene {
     this.A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.S = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     this.D = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-    this.SPACE = this.input.keyboard.addKey(
-      Phaser.Input.Keyboard.KeyCodes.SPACE
-    );
+    this.SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     //this.Camera = this.cameras.main;
     //this.Camera.setBounds(0, 0, this.game.canvas.width, this.game.canvas.height, true);
     //this.Cursore = this.input.keyboard.createCursorKeys();
   }
   create() {
-    this.platforms = this.physics.add.staticGroup()
-    const firstPlatform = this.platforms.create(gameSettings.gameWidth/2, gameSettings.gameHeight , TextureKeys.Piattaforma).setScale(0.1);
+    this.platforms = this.physics.add.staticGroup();
+    const firstPlatform = this.platforms
+      .create(
+        gameSettings.gameWidth / 2,
+        gameSettings.gameHeight,
+        TextureKeys.Piattaforma
+      )
+      .setScale(0.1);
     const firstPlatformBody = firstPlatform.body;
     firstPlatformBody.updateFromGameObject();
 
-    this.x = (gameSettings.gameWidth/3);
-    this.y = 100
-    for(let i = 0; i < 4; i++)
-    {
-      if(i % 2 == 0) this.x *= 2;
+    this.x = gameSettings.gameWidth / 3;
+    this.y = 100;
+    for (let i = 0; i < 4; i++) {
+      if (i % 2 == 0) this.x *= 2;
       else this.x /= 2;
-      
-      
-      /** @type {Phaser.Physics.Arcade.Sprite} */
-      const platform = this.platforms.create(this.x, this.y, TextureKeys.Piattaforma);
-      
-      platform.setScale(0.1)
 
-      this.platforms.add(platform)
+      const platform = this.platforms.create(
+        this.x,
+        this.y,
+        TextureKeys.Piattaforma
+      );
+
+      platform.setScale(0.1);
+
+      this.platforms.add(platform);
       this.y += 200;
-      //this.physics.add.collider(this._pou, this.platforms);
 
-      const body = platform.body as Physics.Arcade.StaticBody
-      body.updateFromGameObject()
+      const body = platform.body as Physics.Arcade.StaticBody;
+      body.updateFromGameObject();
     }
-    // da capire come prendere la posizione
-    
-      this.Giocatore = this.physics.add
+    this.Giocatore = this.physics.add
       .sprite(
         gameSettings.gameWidth * 0.5,
-        gameSettings.gameHeight,
+        gameSettings.gameHeight * 1,
         TextureKeys.Giocatore
       )
       .setBounce(0, 0)
       .setCollideWorldBounds(true)
-      .setDrag(0.1, 0.1)
+      .setDrag(0, 0)
       .setMaxVelocity(900, 900)
       .setGravity(0, 450)
-      .setScale(0.2)
-      .setFriction(0.5, 0.5);
+      .setScale(0.2);
 
-    this.physics.add.collider(
-      this.Giocatore,
-      this.platforms
-    );
-
-    this.Camera.startFollow(
-      this.Giocatore,
-      true,
-      0.05,
-      0.05
-    );
-    this.physics.add.collider(this.platforms, this.Giocatore);
-    this.physics.add.overlap(this.Giocatore, this.platforms);
+    //this.Camera.startFollow(this.Giocatore, true, 0.05, 0.05);
   }
 
   update(time: number, delta: number): void {
-    this.physics.add.collider(this.Giocatore, this.Piattaforma);
+    this.physics.add.collider(this.Giocatore, this.platforms);
 
-    this.physics.add.overlap(this.Giocatore, this.Piattaforma, () => {
+    this.physics.add.overlap(this.Giocatore, this.platforms, () => {
       if (this.Giocatore.body.touching.up) {
         this.Giocatore.setVelocityY(-5000);
       } else if (this.Giocatore.body.touching.down) {
@@ -116,17 +105,16 @@ export default class Gioco_prova extends Phaser.Scene {
     this.Giocatore.setVelocity(0);
 
     if (this.A.isDown) {
-      this.Giocatore.setVelocityX(-10);
+      this.Giocatore.setVelocityX(-speed);
     } else if (this.D.isDown) {
-      this.Giocatore.setVelocityX(+10);
+      this.Giocatore.setVelocityX(speed);
     }
     if (this.S.isDown) {
-      this.Giocatore.setAccelerationY(-10);
+      this.Giocatore.setVelocityY(speed);
       //this.cameras.main.pan(0, 5, 1000, "Sine.easeInOut", true);
     } else if (this.SPACE.isDown) {
-      this.Giocatore.setAccelerationY(10);
+      this.Giocatore.setVelocityY(-speed + 200);
       //this.cameras.main.pan(0, 10, 1000, "Sine.easeInOut", true);
     }
-    
   }
 }

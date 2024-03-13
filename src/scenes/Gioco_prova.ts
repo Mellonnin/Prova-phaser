@@ -31,13 +31,28 @@ export default class Gioco_prova extends Phaser.Scene {
     this.A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.S = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     this.D = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-    this.SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    this.SPACE = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.SPACE
+    );
 
-    //this.Camera = this.cameras.main;
-    //this.Camera.setBounds(0, 0, this.game.canvas.width, this.game.canvas.height, true);
-    //this.Cursore = this.input.keyboard.createCursorKeys();
+    this.Camera = this.cameras.main;
+    this.Camera.setBounds(
+      0,
+      0,
+      this.game.canvas.width/2,
+      this.game.canvas.height*2,
+      true
+    ).setName('main');
+
+    this.physics.world.setBounds(
+      500,
+      1,
+      this.game.canvas.width/2,
+      this.game.canvas.height * 2
+    );
   }
   create() {
+
     this.platforms = this.physics.add.staticGroup();
     const firstPlatform = this.platforms
       .create(
@@ -49,8 +64,8 @@ export default class Gioco_prova extends Phaser.Scene {
     const firstPlatformBody = firstPlatform.body;
     firstPlatformBody.updateFromGameObject();
 
-    this.x = gameSettings.gameWidth / 3;
-    this.y = 100;
+    this.x = gameSettings.gameWidth / 2 * Math.random();
+    this.y += 100;
     for (let i = 0; i < 4; i++) {
       if (i % 2 == 0) this.x *= 2;
       else this.x /= 2;
@@ -77,28 +92,30 @@ export default class Gioco_prova extends Phaser.Scene {
       )
       .setBounce(0, 0)
       .setCollideWorldBounds(true)
-      .setDrag(0, 0)
+      .setDrag(0.2, 0.2)
       .setMaxVelocity(900, 900)
-      .setGravity(0, 450)
+      .setGravity(100, 700)
       .setScale(0.2);
 
-    //this.Camera.startFollow(this.Giocatore, true, 0.05, 0.05);
+    this.Camera.startFollow(this.Giocatore, true, 0.05, 0.05);
   }
 
   update(time: number, delta: number): void {
     this.physics.add.collider(this.Giocatore, this.platforms);
-
+    
     this.physics.add.overlap(this.Giocatore, this.platforms, () => {
       if (this.Giocatore.body.touching.up) {
         this.Giocatore.setVelocityY(-5000);
       } else if (this.Giocatore.body.touching.down) {
         this.Giocatore.setVelocityY(5000);
       } else if (this.Giocatore.body.touching.left) {
-        this.Giocatore.setVelocityX(5000);
+        this.Giocatore.setVelocityX(5000)
       } else if (this.Giocatore.body.touching.right) {
         this.Giocatore.setVelocityX(-5000);
       }
     });
+    
+    //this.physics.add.collider(this.Giocatore, ,()=>{});
 
     const speed = 500;
 
@@ -112,7 +129,7 @@ export default class Gioco_prova extends Phaser.Scene {
     if (this.S.isDown) {
       this.Giocatore.setVelocityY(speed);
       //this.cameras.main.pan(0, 5, 1000, "Sine.easeInOut", true);
-    } else if (this.SPACE.isDown) {
+    } else if (this.W.isDown) {
       this.Giocatore.setVelocityY(-speed + 200);
       //this.cameras.main.pan(0, 10, 1000, "Sine.easeInOut", true);
     }

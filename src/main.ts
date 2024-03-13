@@ -4,6 +4,7 @@ import Preloader from "./scenes/Preloader"
 
 import { gameSettings } from "./consts/GameSettings"
 import Gioco_prova from "./scenes/Gioco_prova"
+import Gioco_provaMazzuolo from "./scenes/Gioco_provaMazzuolo"
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -26,6 +27,7 @@ const config: Phaser.Types.Core.GameConfig = {
   scene: [
     Preloader,
     Gioco_prova,
+    Gioco_provaMazzuolo,
   ],
 }
 

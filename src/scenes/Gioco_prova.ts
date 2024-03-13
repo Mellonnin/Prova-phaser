@@ -22,6 +22,9 @@ export default class Gioco_prova extends Phaser.Scene {
   platforms: Phaser.Physics.Arcade.StaticGroup;
   x: number;
   y: number;
+  counter:number;
+  npiattaforme:number;
+  maluses: Phaser.Physics.Arcade.StaticGroup;
   constructor() {
     super(SceneKeys.Game);
   }
@@ -52,38 +55,22 @@ export default class Gioco_prova extends Phaser.Scene {
     );
   }
   create() {
-
+    this.npiattaforme = 0;
+    this.counter = 0;
     this.platforms = this.physics.add.staticGroup();
-    const firstPlatform = this.platforms
-      .create(
-        gameSettings.gameWidth / 2,
-        gameSettings.gameHeight,
-        TextureKeys.Piattaforma
-      )
-      .setScale(0.1);
+    const firstPlatform = this.platforms.create(
+      gameSettings.gameWidth/2,
+      gameSettings.gameHeight-50 ,
+      TextureKeys.Piattaforma
+    ).setScale(1.5);
     const firstPlatformBody = firstPlatform.body;
     firstPlatformBody.updateFromGameObject();
 
-    this.x = gameSettings.gameWidth / 2 * Math.random();
-    this.y += 100;
-    for (let i = 0; i < 4; i++) {
-      if (i % 2 == 0) this.x *= 2;
-      else this.x /= 2;
+    this.maluses = this.physics.add.staticGroup();
 
-      const platform = this.platforms.create(
-        this.x,
-        this.y,
-        TextureKeys.Piattaforma
-      );
+    this.x = (gameSettings.gameWidth/3);
+    this.y = 100
 
-      platform.setScale(0.1);
-
-      this.platforms.add(platform);
-      this.y += 200;
-
-      const body = platform.body as Physics.Arcade.StaticBody;
-      body.updateFromGameObject();
-    }
     this.Giocatore = this.physics.add
       .sprite(
         gameSettings.gameWidth * 0.5,
@@ -128,10 +115,41 @@ export default class Gioco_prova extends Phaser.Scene {
     }
     if (this.S.isDown) {
       this.Giocatore.setVelocityY(speed);
-      //this.cameras.main.pan(0, 5, 1000, "Sine.easeInOut", true);
     } else if (this.W.isDown) {
       this.Giocatore.setVelocityY(-speed + 200);
-      //this.cameras.main.pan(0, 10, 1000, "Sine.easeInOut", true);
     }
+
+    if(this.npiattaforme<4){
+      for(let i = 0; i < 4; i++){
+        if(i % 2 == 0) this.x *= 2;
+        else this.x /= 2;
+        this.npiattaforme++;
+
+        /** @type {Phaser.Physics.Arcade.Sprite} */
+        const platform = this.platforms.create(this.x, this.y, TextureKeys.Piattaforma);
+
+        platform.setScale(1.5)
+
+        this.platforms.add(platform)
+        if(this.npiattaforme % 2 == 0){//creazione malus
+          const malus = this.maluses.create(platform.x, (platform.y-platform.height), TextureKeys.Redcross);
+          const bodyMalus = malus.body as Physics.Arcade.StaticBody
+          bodyMalus.updateFromGameObject()
+          this.maluses.add(malus)
+        }
+        this.y += 200;
+        //this.physics.add.collider(this._pou, this.platforms);
+
+        const body = platform.body as Physics.Arcade.StaticBody
+        body.updateFromGameObject()
+      }
+    }
+    
+    this.physics.add.overlap(this.Giocatore, this.maluses, (Giocatore, malus) => {
+      malus.destroy();
+      this.counter++;
+      console.log(`Malus presi: ${this.counter}`);//prova
+      ////decrementa count
+    });
   }
 }

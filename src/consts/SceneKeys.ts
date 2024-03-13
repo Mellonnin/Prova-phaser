@@ -3,7 +3,8 @@
 enum SceneKeys
 {
 	Preloader = 'preloader',
-	Game = "Gioco_prova"
+	Game = 'Gioco_prova',
+	GameMazzuolo = 'Gioco_provaMazzuolo'
 }
 
 export default SceneKeys

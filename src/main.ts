@@ -27,7 +27,7 @@ const config: Phaser.Types.Core.GameConfig = {
   scene: [
     Preloader,
     Gioco_prova,
-    Gioco_provaMazzuolo,
+    //Gioco_provaMazzuolo,
   ],
 }
 

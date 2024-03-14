@@ -50,7 +50,11 @@ export default class Gioco_provaMazzuolo extends Phaser.Scene {
     this.npiattaforme = 0;
     this.counter = 0;
     this.platforms = this.physics.add.staticGroup();
-    const firstPlatform = this.platforms.create(gameSettings.gameWidth/2, gameSettings.gameHeight-50 , TextureKeys.Piattaforma).setScale(1.5);
+    const firstPlatform = this.platforms.create(
+      gameSettings.gameWidth/2,
+      gameSettings.gameHeight-50 ,
+      TextureKeys.Piattaforma
+    ).setScale(1.5);
     const firstPlatformBody = firstPlatform.body;
     firstPlatformBody.updateFromGameObject();
 

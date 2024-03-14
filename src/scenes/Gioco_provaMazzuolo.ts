@@ -26,7 +26,7 @@ export default class Gioco_provaMazzuolo extends Phaser.Scene {
   npiattaforme:number;
   maluses: Phaser.Physics.Arcade.StaticGroup;
   constructor() {
-    super(SceneKeys.Game);
+    super(SceneKeys.GameMazzuolo);
   }
 
   init() {
@@ -127,9 +127,9 @@ export default class Gioco_provaMazzuolo extends Phaser.Scene {
   }
 
   update(time: number, delta: number): void {
-    this.physics.add.collider(this.Giocatore, this.Piattaforma);
+    this.physics.add.collider(this.Giocatore, this.platforms);
 
-    this.physics.add.overlap(this.Giocatore, this.Piattaforma, () => {
+    this.physics.add.overlap(this.Giocatore, this.platforms, () => {
       if (this.Giocatore.body.touching.up) {
         this.Giocatore.setVelocityY(-5000);
       } else if (this.Giocatore.body.touching.down) {
@@ -146,18 +146,18 @@ export default class Gioco_provaMazzuolo extends Phaser.Scene {
     this.Giocatore.setVelocity(0);
 
     if (this.A.isDown) {
-      this.Giocatore.setVelocityX(-10);
+      this.Giocatore.setVelocityX(-speed);
     } else if (this.D.isDown) {
-      this.Giocatore.setVelocityX(+10);
+      this.Giocatore.setVelocityX(speed);
     }
     if (this.S.isDown) {
-      this.Giocatore.setAccelerationY(-10);
+      this.Giocatore.setVelocityY(speed);
       //this.cameras.main.pan(0, 5, 1000, "Sine.easeInOut", true);
     } else if (this.SPACE.isDown) {
-      this.Giocatore.setAccelerationY(10);
+      this.Giocatore.setVelocityY(-speed + 200);
       //this.cameras.main.pan(0, 10, 1000, "Sine.easeInOut", true);
     }
-    
+  
   
     
     if(this.npiattaforme<4){
